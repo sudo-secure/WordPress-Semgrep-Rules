@@ -1,0 +1,11 @@
+rules:
+  - id: php-todo-fixme-bug
+    patterns:
+      - pattern-either:
+          - pattern-regex: //\s*TODO
+          - pattern-regex: //\s*FIXME
+          - pattern-regex: //\s*BUG
+    message: Comment with todo/fixme/bug found
+    languages:
+      - php
+    severity: WARNING

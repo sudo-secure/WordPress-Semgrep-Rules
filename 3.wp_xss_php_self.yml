@@ -1,0 +1,21 @@
+rules:
+- id: wordpress-xss-server-taint
+  languages: [php]
+  mode: taint
+  message: $_SERVER data echoed without escaping -> Possible XSS
+  severity: ERROR
+
+  pattern-sources:
+    - pattern: $_SERVER[...]
+
+  pattern-sinks:
+    - pattern-either:
+        - pattern: echo $X;
+        - pattern: print $X;
+
+  pattern-sanitizers:
+    - pattern-either:
+        - pattern: esc_html(...)
+        - pattern: esc_attr(...)
+        - pattern: htmlspecialchars(...)
+        - pattern: htmlentities(...)

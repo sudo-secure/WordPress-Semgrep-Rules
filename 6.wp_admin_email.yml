@@ -1,0 +1,9 @@
+rules:
+  - id: wordpress-admin-email-exposure
+    patterns:
+      - pattern: get_option('admin_email', ...)
+      - pattern: get_option("admin_email", ...)
+    message: "Direct exposure of admin email via get_option()"
+    languages: [php]
+    severity: ERROR
+

@@ -1,0 +1,25 @@
+rules:
+  - id: wp-admin-settings-csrf
+    languages:
+      - php
+    severity: ERROR
+    message: |
+      CSRF risk: admin settings updated via POST without nonce validation.
+    mode: taint
+    pattern-sources:
+      - pattern: $_POST[...]
+    pattern-sinks:
+      - pattern-either:
+          - pattern: update_option(...)
+          - pattern: add_option(...)
+          - pattern: delete_option(...)
+          - pattern: file_put_contents(...)
+    pattern-sanitizers:
+      - pattern: check_admin_referer(...)
+        by-side-effect: true
+      - pattern: wp_verify_nonce(...)
+        by-side-effect: true
+    metadata:
+      impact: High
+      category: security
+      technology: wordpress

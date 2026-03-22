@@ -1,0 +1,14 @@
+rules:
+  - id: wp-unsafe-include
+    patterns:
+      - pattern-either:
+          - pattern: include(...)
+          - pattern: include_once(...)
+          - pattern: require(...)
+          - pattern: require_once(...)
+      - metavariable-regex:
+          metavariable: $ARG
+          regex: "\\$_(GET|POST|REQUEST|COOKIE|SERVER)"
+    message: "Unsafe include/require with user input. Leads to Local File Inclusion (LFI)."
+    languages: [php]
+    severity: ERROR

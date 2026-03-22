@@ -1,0 +1,47 @@
+rules:
+  - id: wordpress-insecure-ajax-nopriv-hook
+    patterns:
+      - pattern: add_action($HOOK, ...)
+      - metavariable-regex:
+          metavariable: $HOOK
+          regex: "'wp_ajax_nopriv.*'"
+    message: |
+      This hook allows developers to handle AJAX endpoints for non-authenticated users.
+      The "wp_ajax_nopriv_$action" hook fires for non-authenticated users, which can
+      pose a security risk if proper access controls are not implemented.
+      
+      Security considerations:
+      1. Ensure the endpoint validates and sanitizes all input data
+      2. Implement rate limiting to prevent abuse
+      3. Consider if the functionality should be available to unauthenticated users
+      4. Verify no sensitive data is exposed through this endpoint
+    paths:
+      include:
+        - "**/*.php"
+    languages:
+      - php
+    severity: WARNING
+    metadata:
+      category: security
+      confidence: HIGH
+      likelihood: MEDIUM
+      impact: MEDIUM
+      subcategory:
+        - audit
+      technology:
+        - WordPress
+        - WordPress Plugins
+      references:
+        - https://developer.wordpress.org/reference/hooks/wp_ajax_nopriv__action/
+        - https://codex.wordpress.org/Plugin_API/Action_Reference/wp_ajax_nopriv_(action)
+        - https://www.wordfence.com/learn/how-to-secure-ajax-in-wordpress/
+      owasp:
+        - A01:2021 - Broken Access Control
+        - A05:2021 - Security Misconfiguration
+      cwe:
+        - "CWE-285: Improper Authorization"
+        - "CWE-352: Cross-Site Request Forgery (CSRF)"
+      license: Semgrep Rules License v1.0
+      vulnerability_class:
+        - Improper Authorization
+        - Missing Access Controls

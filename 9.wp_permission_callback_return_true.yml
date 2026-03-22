@@ -1,0 +1,7 @@
+rules:
+  - id: wordpress-permission-callback-return-true
+    languages:
+      - php
+    message: permission_callback must not allow unrestricted access.
+    severity: ERROR
+    pattern-regex: (['"])permission_callback['"]\s*=>\s*(['"]?__return_true['"]?)

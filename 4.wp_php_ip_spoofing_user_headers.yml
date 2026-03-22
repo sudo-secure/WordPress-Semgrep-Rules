@@ -1,0 +1,15 @@
+rules:
+  - id: php-ip-spoofing-user-headers
+    message: >
+      User-controlled IP header used for client IP detection.
+      Ensure trusted proxy validation before using X-Forwarded-For.
+    severity: ERROR
+    languages: [php]
+    patterns:
+      - pattern-inside: |
+          function $FUNC(...) {
+            ...
+          }
+      - pattern-either:
+          - pattern: filter_var($_SERVER["HTTP_X_FORWARDED_FOR"], FILTER_VALIDATE_IP)
+          - pattern: filter_var($_SERVER["HTTP_CLIENT_IP"], FILTER_VALIDATE_IP)
