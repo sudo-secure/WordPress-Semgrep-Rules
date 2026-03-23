@@ -1,0 +1,8 @@
+rules:
+  - id: detect-user-register-hook
+    languages:
+      - php
+    message: "user_register add_action"
+    severity: INFO
+    patterns:
+      - pattern: add_action('user_register', ...)

@@ -1,0 +1,10 @@
+rules:
+  - id: detect-post-role-usage
+    languages:
+      - php
+    message: Use $_POST['role'] or $_POST['user_role']
+    severity: WARNING
+    patterns:
+      - pattern-either:
+          - pattern: $_POST['role']
+          - pattern: $_POST['user_role']

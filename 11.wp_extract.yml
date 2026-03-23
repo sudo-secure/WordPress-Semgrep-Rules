@@ -1,0 +1,6 @@
+rules:
+  - id: wp-extract-function
+    pattern: extract(...)
+    message: "extract() function is dangerous as it can overwrite existing variables. Avoid using it."
+    languages: [php]
+    severity: ERROR
